@@ -1,0 +1,112 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Choice implements Mold{
+	
+	public static Choice choice = new Choice(); 
+	String str = null;
+	String ID=null;
+	public static String out="";
+	char T;
+	int position;
+	Pattern pattern = null;
+	Matcher matcher = null;
+
+	/*
+	 * 获取题号
+	 */
+	public String TitleNumber(String s) {//获取题号
+		String regex_T = "(\\d+\\.\\D)";
+		pattern = Pattern.compile(regex_T);
+	    matcher = pattern.matcher(s);
+	    String cache = "";
+	    if(matcher.find()) {
+	    	ID = "2-"+matcher.group().substring(matcher.start(), matcher.end()-2);
+	    	//2-代表选择题
+	    }
+	    cache += "\n<form id=\""+ID+"\">";
+	   // System.out.println(cache);
+		return cache;
+	}
+	/*
+	 * 获取题目
+	 */
+	public String Subject(String s) {
+		System.out.println(s);
+		String regex_T = "([^A-Z|^a-z]{1}[ABCDabcd][^A-Z|^a-z]{1})";
+		Pattern pattern = Pattern.compile(regex_T);
+		Matcher matcher = pattern.matcher(s);
+		int index = -1;
+		if(matcher.find()) {
+	//		System.out.println(matcher.group());
+			index = matcher.start();
+		}
+	//	System.out.println(index);
+		position = index;//这个是第一个选项的前一个位置
+		String cache = s.substring(0,index+1);
+		return cache;
+	}
+	/*
+	 * 获取选项
+	 */
+	public String Option(String s) {
+		String regex_X = "([^A-Z|^a-z]{1}[ABCDabcd][^A-Z|^a-z]{1})";
+		Pattern pattern = Pattern.compile(regex_X);
+		Matcher matcher = pattern.matcher(s);
+		int index=-1;
+		String cache="";
+		int end=-1;
+		while(matcher.find()) {
+			end = matcher.start()+1;
+			if(index!=-1) {
+				cache += "<input type=\"radio\" id=\""+ID+"-"+s.charAt(index)+"\" name=\"xxx\" />";
+				cache += s.substring(index,end);
+				cache += "\n<br />\n";
+			}
+			index = end;
+		}
+		end = s.length();
+		cache += "<input type=\"radio\" id=\""+ID+"-"+s.charAt(index)+"\" name=\"xxx\" />";
+		cache += s.substring(index,end);
+		cache += "\n<br />\n";
+		cache += "</form>\n";
+	//	System.out.println(cache);
+		return cache;
+	}
+	/*
+	 * 获取答案
+	 */
+	public String Result(String s) {
+        String regex_R = "(\\([ABCDabcd]\\))";
+		Pattern pattern = Pattern.compile(regex_R);
+		Matcher matcher = pattern.matcher(s);
+		if(matcher.find()) {
+			T = matcher.group().toString().charAt(1);
+		}
+		s=s.replaceAll(regex_R, "");
+		return s;
+	}
+	/*
+	 * 当点击按钮发生的事件
+	 */
+	public String onClick() {
+		String cache="";
+		cache += "<button onClick=\"javascript:if(document.getElementById(\'"+ID+"-";
+		cache += T+"\').checked){document.getElementById(\'"+ID+"\').style.color=\'#3eaf7c\'}";
+		cache += "else{document.getElementById(\'"+ID+"\').style.color=\'#F4606C\'}\">确定</button>\n";
+		return cache;
+	}
+
+	@Override
+	public String run(String s) {
+		// TODO Auto-generated method stub
+		out = "";
+		out += this.TitleNumber(s)+"\n";
+		s = this.Result(s);
+		out += this.Subject(s)+"\n<br />\n";
+		out += this.Option(s.substring(position))+"\n";
+		out += this.onClick();
+	//	System.out.println(out);
+		return out;
+	}
+}
