@@ -44,7 +44,7 @@ public class Handle {
 	}
 	public void merge() {
 		for (String sqw : whole) {
-			System.out.println(Classification.Function(sqw));
+			out += Classification.Function(sqw);
 		}
 	}
 }
