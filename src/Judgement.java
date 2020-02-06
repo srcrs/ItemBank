@@ -11,7 +11,7 @@ public class Judgement implements Mold{
 	Matcher matcher = null;
 	@Override
 	public String TitleNumber(String s) {
-		String regex_T = "(\\d+\\.\\D)";
+		String regex_T = "(\\\\d{1,}[.|、|．]{1}[\\\\D|^A-Z|^a-z])";
 		pattern = Pattern.compile(regex_T);
 	    matcher = pattern.matcher(s);
 	    String cache = "";

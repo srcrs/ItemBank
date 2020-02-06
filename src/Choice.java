@@ -15,8 +15,8 @@ public class Choice implements Mold{
 	/*
 	 * 获取题号
 	 */
-	public String TitleNumber(String s) {//获取题号
-		String regex_T = "(\\d+\\.\\D)";
+	public String TitleNumber(String s) {
+		String regex_T = "(\\d{1,}[.|、|．]{1}[\\D|^A-Z|a-z]{1})";
 		pattern = Pattern.compile(regex_T);
 	    matcher = pattern.matcher(s);
 	    String cache = "";
@@ -32,32 +32,32 @@ public class Choice implements Mold{
 	 * 获取题目
 	 */
 	public String Subject(String s) {
-		System.out.println(s);
-		String regex_T = "([^A-Z|^a-z]{1}[ABCDabcd][^A-Z|^a-z]{1})";
+	//	System.out.println(s);
+		String regex_T = "([ＡＢＣＤABCDabcd]{1}[.|、|．]{1})";
 		Pattern pattern = Pattern.compile(regex_T);
 		Matcher matcher = pattern.matcher(s);
 		int index = -1;
 		if(matcher.find()) {
-	//		System.out.println(matcher.group());
+			//System.out.println(matcher.group());
 			index = matcher.start();
 		}
 	//	System.out.println(index);
-		position = index;//这个是第一个选项的前一个位置
-		String cache = s.substring(0,index+1);
+		position = index;
+		String cache = s.substring(0,index);
 		return cache;
 	}
 	/*
 	 * 获取选项
 	 */
 	public String Option(String s) {
-		String regex_X = "([^A-Z|^a-z]{1}[ABCDabcd][^A-Z|^a-z]{1})";
+		String regex_X = "([ＡＢＣＤABCDabcd]{1}[.|、|．]{1})";
 		Pattern pattern = Pattern.compile(regex_X);
 		Matcher matcher = pattern.matcher(s);
 		int index=-1;
 		String cache="";
 		int end=-1;
 		while(matcher.find()) {
-			end = matcher.start()+1;
+			end = matcher.start();
 			if(index!=-1) {
 				cache += "<input type=\"radio\" id=\""+ID+"-"+s.charAt(index)+"\" name=\"xxx\" />";
 				cache += s.substring(index,end);
@@ -77,7 +77,7 @@ public class Choice implements Mold{
 	 * 获取答案
 	 */
 	public String Result(String s) {
-        String regex_R = "(\\([ABCDabcd]\\))";
+        String regex_R = "(\\([ＡＢＣＤABCDabcd]\\))";
 		Pattern pattern = Pattern.compile(regex_R);
 		Matcher matcher = pattern.matcher(s);
 		if(matcher.find()) {

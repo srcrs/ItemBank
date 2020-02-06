@@ -8,7 +8,7 @@ public class Classification {
 	 * 获取答案
 	 */
 	public static void Result(String s) {
-        String regex_R = "(\\([ABCDabcdTFtf]\\))";
+        String regex_R = "(\\([ＡＢＣＤABCDabcdTFtf]\\))";
 		Pattern pattern = Pattern.compile(regex_R);
 		Matcher matcher = pattern.matcher(s);
 		if(matcher.find()) {
@@ -20,6 +20,10 @@ public class Classification {
 		Result(s);
 	//	System.out.println(s);
 		switch(T) {
+		case  'Ａ' :
+		case  'Ｂ' :
+		case  'Ｃ' :
+		case  'Ｄ' :
 		case 'A' :
 		case 'B' :
 		case 'C' :
@@ -34,7 +38,7 @@ public class Classification {
 		case 'F' :
 		case 't' :
 		case 'f' :{
-			System.out.println(s);
+			//System.out.println(s);
 			cache += Judgement.judgement.run(s);
 		};break;
 		}
