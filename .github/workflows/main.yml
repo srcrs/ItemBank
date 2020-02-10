@@ -1,7 +1,5 @@
 name: Ubuntu
-on:
-  watch:
-    types: master
+on: push
 jobs:
   Ubuntu:
     runs-on: ubuntu-latest
