@@ -14,6 +14,7 @@ public class Print {
 			writer.append(Handle.out);
 			writer.flush();
 			writer.close();
+			System.out.println("写入成功");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("写入失败");

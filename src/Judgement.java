@@ -6,12 +6,12 @@ public class Judgement implements Mold{
 	String str = null;
 	String ID=null;
 	public static String out="";
-	char T;
+	String T="";
 	Pattern pattern = null;
 	Matcher matcher = null;
 	@Override
 	public String TitleNumber(String s) {
-		String regex_T = "(\\\\d{1,}[.|、|．]{1}[\\\\D|^A-Z|^a-z])";
+		String regex_T = "(\\d{1,}[.|、|．]{1}[\\D|^A-Z|^a-z])";
 		pattern = Pattern.compile(regex_T);
 	    matcher = pattern.matcher(s);
 	    String cache = "";
@@ -49,7 +49,7 @@ public class Judgement implements Mold{
 		Pattern pattern = Pattern.compile(regex_R);
 		Matcher matcher = pattern.matcher(s);
 		if(matcher.find()) {
-			T = matcher.group().toString().charAt(1);
+			T += matcher.group().toString().charAt(1);
 
 		}
 		s=s.replaceAll(regex_R, "");
@@ -69,14 +69,30 @@ public class Judgement implements Mold{
 
 	@Override
 	public String run(String s) {
-	//	System.out.println(s);
+		//System.out.println(s);
 		out = "";
 		out += this.TitleNumber(s)+"\n";
 		s = this.Result(s);
 		out += this.Subject(s)+"\n<br />\n";
 		out += this.Option(s)+"\n";
 		out += this.onClick();
-		System.out.println(out);
+		//System.out.println(out);
 		return out;
+	}
+
+	@Override
+	public String rule(String s) {
+		this.Result(s);
+		switch(T) {
+		case "T" :
+		case "F" :
+		case "t" :
+		case "f" :{
+			T="";
+			return "true";
+		}
+		}
+		T="";
+		return "flase";
 	}
 }

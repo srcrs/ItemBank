@@ -1,8 +1,7 @@
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.sun.org.apache.xalan.internal.utils.XMLSecurityManager.Limit;
 
 public class Handle {
 	public int flag=0;
@@ -11,12 +10,22 @@ public class Handle {
 	public static String out="";
 	Pattern pattern = null;
 	Matcher matcher = null;
-	ArrayList<String> whole = new ArrayList<String>();
+	ArrayList<String> whole = new ArrayList<String>();//每一道题
+	public static ArrayList<String> classname = new ArrayList<String>();//每一种题型类的名字
 	public Handle(String s) {
 		// TODO Auto-generated constructor stub
 		this.str = s;
 		this.Init();
 	}
+	/*
+	 * 增加题型的类名称
+	 */
+	public static void Increase(String s) {
+		classname.add(s);
+	}
+	/*
+	 * 初始化
+	 */
 	public void Init() {
 		str = str.replace("（", "(");
 		str = str.replace('）', ')');
@@ -37,7 +46,6 @@ public class Handle {
 		int index=-1;
 		int end=-1;
 		while(matcher.find()) {
-			System.out.println(matcher.group());
 			end=matcher.end()-2;//代表点的位置
 	//		System.out.println(index+"----"+end);
 			if(str.substring(end-flag-1, end).compareTo(limit[flag])>=0) {
@@ -53,7 +61,22 @@ public class Handle {
 	}
 	public void merge() {
 		for (String sqw : whole) {
-			out += Classification.Function(sqw);
+			//out += Classification.Function(sqw);
+			for(String name : classname) {
+				try {
+					Object obj = Class.forName(name).newInstance();
+					Class clazz = obj.getClass();
+					Method md = clazz.getMethod("rule", String.class);
+					if("true".equals(md.invoke(obj, sqw))) {
+						Method m = clazz.getMethod("run", String.class);
+						out += m.invoke(obj,sqw);
+						//System.out.println(m.invoke(obj,sqw));
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }
