@@ -54,7 +54,7 @@ public class Handle {
 			if(index!=-1) {
 				whole.add(str.substring(index, end-flag-1));
 			}
-			index = end-flag-1;
+			index = end-flag-(matcher.group().length()-2);//解决第一道题不是个位数只取一位问题
 		}
 		end = str.length();
 		whole.add(str.substring(index,end));
