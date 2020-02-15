@@ -3,6 +3,7 @@ import java.util.regex.Pattern;
 
 public class MoreChoice implements Mold{
 	public static MoreChoice moreChoice = new MoreChoice();
+	StringBuffer all = new StringBuffer();//保存所有选项，为以后多种多选题铺路
 	String str = null;
 	String ID = null;
 	public static String out = "";
@@ -71,6 +72,7 @@ public class MoreChoice implements Mold{
 		while (matcher.find()) {
 			end = matcher.start();
 			if (index != -1) {
+				all.append(s.charAt(index));
 				cache += "<input type=\"checkbox\" id=\"" + ID + "-" + s.charAt(index) + "\" name=\"xxx\" />";
 				cache += s.substring(index, end);
 				cache += "\n<br />\n";
@@ -78,6 +80,7 @@ public class MoreChoice implements Mold{
 			index = end;
 		}
 		end = s.length();
+		all.append(s.charAt(index));
 		cache += "<input type=\"checkbox\" id=\"" + ID + "-" + s.charAt(index) + "\" name=\"xxx\" />";
 		cache += s.substring(index, end);
 		cache += "\n<br />\n";
@@ -103,9 +106,19 @@ public class MoreChoice implements Mold{
 
 	@Override
 	public String onClick() {
+		for (char t : T.toCharArray()) {
+			for(int i=0;i<all.length();i++) {
+				if(t==all.charAt(i)) {
+					all.deleteCharAt(i);
+				}
+			}
+		}
 		String cache = "<button onClick=\"javascript:if(";
 		for (char t : T.toCharArray()) {
 			cache += "document.getElementById(\'" + ID + "-" + t + "\').checked&&";
+		}
+		for (int i=0;i<all.length();i++) {
+			cache += "!document.getElementById(\'" + ID + "-" + all.charAt(i) + "\').checked&&";
 		}
 		cache = cache.substring(0, cache.length()-2);
 //		cache += "<button onClick=\"javascript:if(document.getElementById(\'" + ID + "-";
