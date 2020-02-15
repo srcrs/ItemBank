@@ -20,7 +20,6 @@ public class MoreChoice implements Mold{
 		out += this.Subject(s) + "\n<br />\n";
 		out += this.Option(s.substring(position)) + "\n";
 		out += this.onClick();
-		// System.out.println(out);
 		return out;
 	}
 	/*
@@ -37,7 +36,6 @@ public class MoreChoice implements Mold{
 			// 3-代表多选题
 		}
 		cache += "\n<form id=\"" + ID + "\">";
-		// System.out.println(cache);
 		return cache;
 	}
 	/*
@@ -50,10 +48,8 @@ public class MoreChoice implements Mold{
 		Matcher matcher = pattern.matcher(s);
 		int index = -1;
 		if (matcher.find()) {
-			// System.out.println(matcher.group());
 			index = matcher.start();
 		}
-		// System.out.println(index);
 		position = index;
 		String cache = s.substring(0, index);
 		return cache;
@@ -85,7 +81,6 @@ public class MoreChoice implements Mold{
 		cache += s.substring(index, end);
 		cache += "\n<br />\n";
 		cache += "</form>\n";
-		// System.out.println(cache);
 		return cache;
 	}
 	/*

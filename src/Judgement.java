@@ -20,7 +20,6 @@ public class Judgement implements Mold{
 	    	//1-代表判断题
 	    }
 	    cache += "\n<form id=\""+ID+"\">"; 
-	   // System.out.println(cache);
 		return cache;
 	}
 
@@ -45,7 +44,7 @@ public class Judgement implements Mold{
 
 	@Override
 	public String Result(String s) {
-		 String regex_R = "(\\([ABCDabcdTFtf]\\))";
+		String regex_R = "(\\([ABCDabcdTFtf]\\))";
 		Pattern pattern = Pattern.compile(regex_R);
 		Matcher matcher = pattern.matcher(s);
 		if(matcher.find()) {
@@ -53,7 +52,6 @@ public class Judgement implements Mold{
 
 		}
 		s=s.replaceAll(regex_R, "");
-		//System.out.println(s);
 		return s;
 	}
 
@@ -69,14 +67,12 @@ public class Judgement implements Mold{
 
 	@Override
 	public String run(String s) {
-		//System.out.println(s);
 		out = "";
 		out += this.TitleNumber(s)+"\n";
 		s = this.Result(s);
 		out += this.Subject(s)+"\n<br />\n";
 		out += this.Option(s)+"\n";
 		out += this.onClick();
-		//System.out.println(out);
 		return out;
 	}
 

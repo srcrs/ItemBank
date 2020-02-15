@@ -15,10 +15,8 @@ public class Connect {
 			String str = "";
 			while((str=reader.readLine())!=null) {
 				s += str;
-			//	System.out.println(s.toString());
 			}
 			reader.close();
-		//	System.out.println(s);
 			new Handle(s);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -15,18 +15,15 @@ public class Choice implements Mold {
 	 * 获取题号
 	 */
 	public String TitleNumber(String s) {
-		//System.out.println(s);
 		String regex_T = "(\\d{1,}[.|、|．]{1}[\\D|^A-Z|a-z]{1})";
 		pattern = Pattern.compile(regex_T);
 		matcher = pattern.matcher(s);
 		String cache = "";
 		if (matcher.find()) {
-		//	System.out.println(matcher.group());
 			ID = "2-" + matcher.group().substring(matcher.start(), matcher.end() - 2);
 			// 2-代表选择题
 		}
 		cache += "\n<form id=\"" + ID + "\">";
-		// System.out.println(cache);
 		return cache;
 	}
 
@@ -34,16 +31,13 @@ public class Choice implements Mold {
 	 * 获取题目
 	 */
 	public String Subject(String s) {
-		// System.out.println(s);
 		String regex_T = "([ＡＢＣＤABCDabcd]{1}[.|、|．]{1})";
 		Pattern pattern = Pattern.compile(regex_T);
 		Matcher matcher = pattern.matcher(s);
 		int index = -1;
 		if (matcher.find()) {
-			// System.out.println(matcher.group());
 			index = matcher.start();
 		}
-		// System.out.println(index);
 		position = index;
 		String cache = s.substring(0, index);
 		return cache;
@@ -73,7 +67,6 @@ public class Choice implements Mold {
 		cache += s.substring(index, end);
 		cache += "\n<br />\n";
 		cache += "</form>\n";
-		// System.out.println(cache);
 		return cache;
 	}
 
@@ -104,23 +97,18 @@ public class Choice implements Mold {
 
 	@Override
 	public String run(String s) {
-		// TODO Auto-generated method stub
-		//System.out.println(s);
 		out = "";
 		out += this.TitleNumber(s) + "\n";
 		s = this.Result(s);
 		out += this.Subject(s) + "\n<br />\n";
 		out += this.Option(s.substring(position)) + "\n";
 		out += this.onClick();
-		// System.out.println(out);
 		return out;
 	}
 
 	@Override
 	public String rule(String s) {
-		
 		this.Result(s);
-		System.out.println(T);
 		switch (T) {
 		case "Ａ":
 		case "Ｂ":
