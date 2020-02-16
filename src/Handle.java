@@ -86,7 +86,7 @@ public class Handle {
 				try {
 					Object obj = Class.forName(name).newInstance();
 					Class<? extends Object> clazz = obj.getClass();//不知道为什么加上这个就没有警告了
-					Method md = clazz.getMethod("rule", String.class);
+					Method md = clazz.getMethod("Rule", String.class);
 					if("true".equals(md.invoke(obj, sqw))) {
 						Method m = clazz.getMethod("run", String.class);
 						out += m.invoke(obj,sqw);

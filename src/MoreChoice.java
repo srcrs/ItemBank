@@ -123,7 +123,7 @@ public class MoreChoice implements Mold{
 	}
 
 	@Override
-	public String rule(String s) {
+	public String Rule(String s) {
 		this.Result(s);
 		switch(T) {
 		case "AB":

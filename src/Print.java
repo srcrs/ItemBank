@@ -6,10 +6,10 @@ public class Print {
 	String file=null;
 	public Print(String file) {
 		this.file = file;
-		this.file = remove(file) + "out.txt";
+		this.file = Remove(file) + "out.txt";
 		
 	}
-	public String remove(String file) {
+	public String Remove(String file) {
 		int in=-1;
 		for(int i=file.length()-1;i>=0;i--) {
 			if(file.charAt(i)=='\\'||file.charAt(i)=='\\') {
