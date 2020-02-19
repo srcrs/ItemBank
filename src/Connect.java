@@ -19,8 +19,7 @@ public class Connect {
 			reader.close();
 			new Handle(s);
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("没有找到文本文件！！！");
+			System.out.println("没有找到文本文件！！！\n");
 		}
 	}
 }

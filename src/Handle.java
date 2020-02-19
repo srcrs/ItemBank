@@ -38,32 +38,36 @@ public class Handle {
 	 * 分割
 	 */
 	public void Divition() {
-		flag = 0;
-		String regex = "((\\d{1,}|[一二三])[.|、|．]{1}\\D)";
-		pattern = Pattern.compile(regex);
-	    matcher = pattern.matcher(str);
-		int index=-1;
-		int end=-1;
-		while(matcher.find()) {
-			String s = matcher.group();
-			end=matcher.end()-2;//代表点的位置
-			if(s.charAt(0)=='一'||s.charAt(0)=='二'||s.charAt(0)=='三') {
-				flag=0;
-			}
-			else {
-					if(str.substring(end-flag-(s.length()-2), end).compareTo(limit[flag])>0) {
-						flag++;
-					}
+		try {
+			flag = 0;
+			String regex = "((\\d{1,}|[一二三])[.|、|．]{1}\\D)";
+			pattern = Pattern.compile(regex);
+		    matcher = pattern.matcher(str);
+			int index=-1;
+			int end=-1;
+			while(matcher.find()) {
+				String s = matcher.group();
+				end=matcher.end()-2;//代表点的位置
+				if(s.charAt(0)=='一'||s.charAt(0)=='二'||s.charAt(0)=='三') {
+					flag=0;
+				}
+				else {
+						if(str.substring(end-flag-(s.length()-2), end).compareTo(limit[flag])>0) {
+							flag++;
+						}
+					
+				}
 				
+				if(index!=-1) {
+					whole.add(str.substring(index, end-flag-(s.length()-2)));
+				}
+				index = end-flag-(s.length()-2);//解决第一道题不是个位数只取一位问题
 			}
-			
-			if(index!=-1) {
-				whole.add(str.substring(index, end-flag-(s.length()-2)));
-			}
-			index = end-flag-(s.length()-2);//解决第一道题不是个位数只取一位问题
+			end = str.length();
+			whole.add(str.substring(index,end));
+		} catch (Exception e){
+			System.out.println("检查文本的格式！！！\n");
 		}
-		end = str.length();
-		whole.add(str.substring(index,end));
 	}
 	public void merge() {
 //		int num=0;
@@ -89,7 +93,16 @@ public class Handle {
 					Method md = clazz.getMethod("Rule", String.class);
 					if("true".equals(md.invoke(obj, sqw))) {
 						Method m = clazz.getMethod("run", String.class);
+						if("false".equals(m.invoke(obj,sqw))) {
+							System.out.println("缺少必要选项！！！——————" + sqw);
+							break;
+						}
 						out += m.invoke(obj,sqw);
+						break;
+					}
+					else if("empty".equals(md.invoke(obj, sqw))) {
+						System.out.println("答案为空！！！——————"+sqw.toString());
+						break;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

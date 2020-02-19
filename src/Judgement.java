@@ -44,7 +44,7 @@ public class Judgement implements Mold{
 
 	@Override
 	public String Result(String s) {
-		String regex_R = "(\\([ABCDabcdTFtf]\\))";
+		String regex_R = "(\\([ABabTFtf]\\))";
 		Pattern pattern = Pattern.compile(regex_R);
 		Matcher matcher = pattern.matcher(s);
 		if(matcher.find()) {

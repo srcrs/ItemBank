@@ -39,7 +39,10 @@ public class Choice implements Mold {
 			index = matcher.start();
 		}
 		position = index;
-		String cache = s.substring(0, index);
+		String cache="";
+		if(index != -1) {
+			cache = s.substring(0, index);
+		}
 		return cache;
 	}
 
@@ -100,6 +103,9 @@ public class Choice implements Mold {
 		out = "";
 		out += this.TitleNumber(s) + "\n";
 		s = this.Result(s);
+		if("".equals(this.Subject(s))) {
+			return "false";
+		}
 		out += this.Subject(s) + "\n<br />\n";
 		out += this.Option(s.substring(position)) + "\n";
 		out += this.onClick();
@@ -108,6 +114,7 @@ public class Choice implements Mold {
 
 	@Override
 	public String Rule(String s) {
+		T = "";
 		this.Result(s);
 		switch (T) {
 		case "Ａ":

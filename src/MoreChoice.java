@@ -17,6 +17,9 @@ public class MoreChoice implements Mold{
 		out = "";
 		out += this.TitleNumber(s) + "\n";
 		s = this.Result(s);
+		if("".equals(this.Subject(s))) {
+			return "false";
+		}
 		out += this.Subject(s) + "\n<br />\n";
 		out += this.Option(s.substring(position)) + "\n";
 		out += this.onClick();
@@ -51,7 +54,10 @@ public class MoreChoice implements Mold{
 			index = matcher.start();
 		}
 		position = index;
-		String cache = s.substring(0, index);
+		String cache = "";
+		if(index != -1) {
+			cache = s.substring(0, index);
+		}
 		return cache;
 	}
 	/*
@@ -138,6 +144,9 @@ public class MoreChoice implements Mold{
 		case "ABCD":{
 			T = "";
 			return "true";
+		}
+		case "": {
+			return "empty";
 		}
 		}
 		T = "";
