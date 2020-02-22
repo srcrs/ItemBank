@@ -7,6 +7,7 @@ public class Handle {
 	public int flag=0;
 	public String str="";
 	public String [] limit = {"9","99","999","9999","99999"};
+	public String [] head = {"一","二","三","四","五","六","七","八","九","十"};
 	public static String out="";
 	Pattern pattern = null;
 	Matcher matcher = null;
@@ -40,7 +41,7 @@ public class Handle {
 	public void Divition() {
 		try {
 			flag = 0;
-			String regex = "((\\d{1,}|[一二三])[.|、|．]{1}\\D)";
+			String regex = "((\\d{1,}|[一二三四])[.|、|．]{1}\\D)";
 			pattern = Pattern.compile(regex);
 		    matcher = pattern.matcher(str);
 			int index=-1;
@@ -55,9 +56,7 @@ public class Handle {
 						if(str.substring(end-flag-(s.length()-2), end).compareTo(limit[flag])>0) {
 							flag++;
 						}
-					
 				}
-				
 				if(index!=-1) {
 					whole.add(str.substring(index, end-flag-(s.length()-2)));
 				}
@@ -70,44 +69,58 @@ public class Handle {
 		}
 	}
 	public void merge() {
-//		int num=0;
+		@SuppressWarnings("unused")
+		Method md=null;
+		Method m=null;
+		Object obj=null;
+		int t=-1;
 		for (String sqw : whole) {
-			if(sqw.charAt(0)=='一'||sqw.charAt(0)=='二'||sqw.charAt(0)=='三') {
+			if((t=isok(sqw)) != -1) {
 				out += "\n## " + sqw + "\n";
-			}
-//			else {
-//				num++;
-//			}
-//			if(num%10==1) {
-//				if((num+9) < whole.size()) {
-//					out += "\n### "+num+"-"+(num+9)+"\n";
-//				}
-//				else {
-//					out += "\n### "+num+"-"+whole.size()+"\n";
-//				}
-//			}
-			for(String name : classname) {
-				try {
-					Object obj = Class.forName(name).newInstance();
-					Class<? extends Object> clazz = obj.getClass();//不知道为什么加上这个就没有警告了
-					Method md = clazz.getMethod("Rule", String.class);
-					if("true".equals(md.invoke(obj, sqw))) {
-						Method m = clazz.getMethod("run", String.class);
-						if("false".equals(m.invoke(obj,sqw))) {
-							System.out.println("缺少必要选项！！！——————" + sqw);
+				for(String name : classname) {
+					try {
+						obj = Class.forName(name).newInstance();
+						Class<? extends Object> clazz = obj.getClass();//不知道为什么加上这个就没有警告了
+						md = clazz.getMethod("getType");
+						if(sqw.substring(t+1).equals(md.invoke(obj, null))) {
+							m = clazz.getMethod("run", String.class);
 							break;
 						}
-						out += m.invoke(obj,sqw);
-						break;
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-					else if("empty".equals(md.invoke(obj, sqw))) {
-						System.out.println("答案为空！！！——————"+sqw.toString());
-						break;
+				}
+			}
+			else {
+				try {
+					String cache="";
+					if("".equals(cache=(String) m.invoke(obj,sqw))) {
+						System.out.println("有点小毛病！！！----"+sqw+"\n");
+					}
+					else {
+						out += cache;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
+		}
+	}
+	public int isok(String s) {
+		int t=0;
+		boolean flag = false;
+		for(int i=0;i<10;i++) {
+			if(head[i].equals(s.substring(t, t+1))) {
+				i=0;
+				t++;
+				flag = true;
+			}
+		}
+		if(flag) {
+			return t;
+		}
+		else {
+			return -1;
 		}
 	}
 }

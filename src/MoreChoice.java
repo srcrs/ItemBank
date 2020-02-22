@@ -17,12 +17,18 @@ public class MoreChoice implements Mold{
 		out = "";
 		out += this.TitleNumber(s) + "\n";
 		s = this.Result(s);
+		if("".equals(T)) {
+			T = "";
+			return "";
+		}
 		if("".equals(this.Subject(s))) {
-			return "false";
+			T = "";
+			return "";
 		}
 		out += this.Subject(s) + "\n<br />\n";
 		out += this.Option(s.substring(position)) + "\n";
 		out += this.onClick();
+		T = "";
 		return out;
 	}
 	/*
@@ -122,35 +128,14 @@ public class MoreChoice implements Mold{
 			cache += "!document.getElementById(\'" + ID + "-" + all.charAt(i) + "\').checked&&";
 		}
 		cache = cache.substring(0, cache.length()-2);
-//		cache += "<button onClick=\"javascript:if(document.getElementById(\'" + ID + "-";
 		cache += "){document.getElementById(\'" + ID + "\').style.color=\'#3eaf7c\'}";
 		cache += "else{document.getElementById(\'" + ID + "\').style.color=\'#F4606C\'}\">确定</button>\n";
 		return cache;
 	}
 
 	@Override
-	public String Rule(String s) {
-		this.Result(s);
-		switch(T) {
-		case "AB":
-		case "AC":
-		case "AD":
-		case "BC":
-		case "BD":
-		case "CD":
-		case "ABC":
-		case "ABD":
-		case "BCD":
-		case "ABCD":{
-			T = "";
-			return "true";
-		}
-		case "": {
-			return "empty";
-		}
-		}
-		T = "";
-		return "false";
+	public String getType() {
+		return "多选择";
 	}
 	
 } 

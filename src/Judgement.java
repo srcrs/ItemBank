@@ -70,25 +70,19 @@ public class Judgement implements Mold{
 		out = "";
 		out += this.TitleNumber(s)+"\n";
 		s = this.Result(s);
+		if("".equals(T)) {
+			T = "";
+			return "";
+		}
 		out += this.Subject(s)+"\n<br />\n";
 		out += this.Option(s)+"\n";
 		out += this.onClick();
+		T = "";
 		return out;
 	}
 
 	@Override
-	public String Rule(String s) {
-		this.Result(s);
-		switch(T) {
-		case "T" :
-		case "F" :
-		case "t" :
-		case "f" :{
-			T="";
-			return "true";
-		}
-		}
-		T="";
-		return "flase";
+	public String getType() {
+		return "判断";
 	}
 }

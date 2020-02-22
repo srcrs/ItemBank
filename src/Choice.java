@@ -103,37 +103,23 @@ public class Choice implements Mold {
 		out = "";
 		out += this.TitleNumber(s) + "\n";
 		s = this.Result(s);
+		if("".equals(T)) {
+			T = "";
+			return "";
+		}
 		if("".equals(this.Subject(s))) {
-			return "false";
+			T = "";
+			return "";
 		}
 		out += this.Subject(s) + "\n<br />\n";
 		out += this.Option(s.substring(position)) + "\n";
 		out += this.onClick();
+		T = "";
 		return out;
 	}
 
 	@Override
-	public String Rule(String s) {
-		T = "";
-		this.Result(s);
-		switch (T) {
-		case "Ａ":
-		case "Ｂ":
-		case "Ｃ":
-		case "Ｄ":
-		case "A":
-		case "B":
-		case "C":
-		case "D":
-		case "a":
-		case "b":
-		case "c":
-		case "d": {
-			T = "";
-			return "true";
-		}
-		}
-		T = "";
-		return "false";
+	public String getType() {
+		return "单选择";
 	}
 }
