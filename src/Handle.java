@@ -49,7 +49,7 @@ public class Handle {
 			while(matcher.find()) {
 				String s = matcher.group();
 				end=matcher.end()-2;//代表点的位置
-				if(s.charAt(0)=='一'||s.charAt(0)=='二'||s.charAt(0)=='三') {
+				if(isok(s)!=-1) {
 					flag=0;
 				}
 				else {
@@ -69,25 +69,24 @@ public class Handle {
 		}
 	}
 	public void merge() {
-		@SuppressWarnings("unused")
 		Method md=null;
 		Method m=null;
 		Object obj=null;
 		int t=-1;
 		for (String sqw : whole) {
 			if((t=isok(sqw)) != -1) {
-				out += "\n## " + sqw + "\n";
 				for(String name : classname) {
 					try {
 						obj = Class.forName(name).newInstance();
 						Class<? extends Object> clazz = obj.getClass();//不知道为什么加上这个就没有警告了
 						md = clazz.getMethod("getType");
 						if(sqw.substring(t+1).equals(md.invoke(obj, null))) {
+							out += "\n## " + sqw + "\n";
 							m = clazz.getMethod("run", String.class);
 							break;
 						}
 					} catch (Exception e) {
-						e.printStackTrace();
+						System.out.println("还没有这种题型哟！！！");
 					}
 				}
 			}
@@ -101,7 +100,8 @@ public class Handle {
 						out += cache;
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println("看一下是不是大标题没添加？");
+					break;
 				}
 			}
 		}
